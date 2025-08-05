@@ -22,11 +22,11 @@ dependencies = [
 ai-journaling-assistant = "ai_journaling_assistant.cli:app"
 
 [project.urls]  # https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels
-homepage = "https://github.com/MatLavallee/hopper-interview"
-source = "https://github.com/MatLavallee/hopper-interview"
-releasenotes = "https://github.com/MatLavallee/hopper-interview/releases"
-documentation = "https://github.com/MatLavallee/hopper-interview"
-issues = "https://github.com/MatLavallee/hopper-interview/issues"
+homepage = "https://github.com/MatLavallee/travel-memory-journal"
+source = "https://github.com/MatLavallee/travel-memory-journal"
+releasenotes = "https://github.com/MatLavallee/travel-memory-journal/releases"
+documentation = "https://github.com/MatLavallee/travel-memory-journal"
+issues = "https://github.com/MatLavallee/travel-memory-journal/issues"
 
 [dependency-groups]  # https://docs.astral.sh/uv/concepts/projects/dependencies/#development-dependencies
 dev = [

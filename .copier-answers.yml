@@ -5,7 +5,7 @@ author_name: Matt
 project_description: Travel memory categorizer
 project_name: AI Journaling Assistant
 project_type: app
-project_url: https://github.com/MatLavallee/hopper-interview
+project_url: https://github.com/MatLavallee/travel-memory-journal
 python_version: '3.12'
 typing: optional
 with_conventional_commits: false
