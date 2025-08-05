@@ -27,6 +27,29 @@ class MemoryService:
         self.storage = StorageService(storage_path, max_backups)
         self.tag_extractor = TagExtractor()
     
+    def _deduplicate_tags(self, *tag_lists: List[str]) -> List[str]:
+        """Combine multiple tag lists, removing duplicates while preserving order.
+        
+        Args:
+            *tag_lists: Variable number of tag lists to combine.
+            
+        Returns:
+            List of unique tags preserving first occurrence order.
+        """
+        all_tags = []
+        for tag_list in tag_lists:
+            if tag_list:  # Handle None/empty lists
+                all_tags.extend(tag_list)
+        
+        unique_tags = []
+        seen = set()
+        for tag in all_tags:
+            if tag not in seen:
+                unique_tags.append(tag)
+                seen.add(tag)
+        
+        return unique_tags
+    
     def add_memory(
         self,
         location: str,
@@ -55,18 +78,7 @@ class MemoryService:
         auto_tags = self.tag_extractor.extract_tags(description)
         
         # Combine manual and auto tags, removing duplicates
-        all_tags = []
-        if manual_tags:
-            all_tags.extend(manual_tags)
-        all_tags.extend(auto_tags)
-        
-        # Remove duplicates while preserving order
-        unique_tags = []
-        seen = set()
-        for tag in all_tags:
-            if tag not in seen:
-                unique_tags.append(tag)
-                seen.add(tag)
+        unique_tags = self._deduplicate_tags(manual_tags or [], auto_tags)
         
         # Create memory object
         memory = Memory(
@@ -142,28 +154,11 @@ class MemoryService:
         # Extract new tags
         auto_tags = self.tag_extractor.extract_tags(memory.description)
         
-        # Combine existing and new tags
-        all_tags = list(memory.tags) + auto_tags
+        # Combine existing and new tags, removing duplicates
+        memory.tags = self._deduplicate_tags(memory.tags, auto_tags)
         
-        # Remove duplicates while preserving order
-        unique_tags = []
-        seen = set()
-        for tag in all_tags:
-            if tag not in seen:
-                unique_tags.append(tag)
-                seen.add(tag)
-        
-        # Update memory tags
-        memory.tags = unique_tags
-        
-        # Save updated memory
-        collection = self.storage.load_memories()
-        for i, stored_memory in enumerate(collection.memories):
-            if stored_memory.id == memory_id:
-                collection.memories[i] = memory
-                break
-        
-        self.storage.save_memories(collection)
+        # Save updated memory using clean abstraction
+        self.storage.update_memory(memory)
         
         return memory
     

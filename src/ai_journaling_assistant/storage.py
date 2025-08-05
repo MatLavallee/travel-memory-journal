@@ -148,6 +148,29 @@ class StorageService:
         collection = self.load_memories()
         return collection.get_memory_by_id(memory_id)
     
+    def update_memory(self, memory: Memory) -> None:
+        """Update existing memory in storage.
+        
+        Args:
+            memory: Memory instance with updated data.
+            
+        Raises:
+            ValueError: If memory with given ID is not found.
+        """
+        collection = self.load_memories()
+        updated = False
+        
+        for i, stored_memory in enumerate(collection.memories):
+            if stored_memory.id == memory.id:
+                collection.memories[i] = memory
+                updated = True
+                break
+        
+        if not updated:
+            raise ValueError(f"Memory with ID {memory.id} not found")
+        
+        self.save_memories(collection)
+    
     def list_memories(self) -> List[Memory]:
         """Return all memories.
         
