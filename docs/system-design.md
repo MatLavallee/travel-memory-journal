@@ -1,10 +1,10 @@
 # Software Design Document: Travel Memory Journal
 
 ## Overview
-- **Purpose**: A local macOS application that helps travelers capture, organize, and easily recall their travel memories with minimal effort and zero cloud dependencies.
+- **Purpose**: A local macOS CLI application that helps travelers capture, organize, and easily recall their travel memories with minimal effort and zero cloud dependencies.
 - **Stakeholders**: Travel enthusiasts, digital nomads, and occasional travelers who want to preserve meaningful travel experiences.
 - **Key Requirements**: 
-  - Performance: App launch < 3 seconds, memory search < 2 seconds, UI responsiveness < 100ms
+  - Performance: App launch < 3 seconds, memory search < 2 seconds, CLI command responsiveness < 100ms
   - Scalability: Handle 1000+ memories per user efficiently
   - Security: Local-only storage with no external data transmission
   - Usability: Memory addition in < 30 seconds, first memory added within 5 minutes
@@ -13,9 +13,9 @@
 
 ### High-Level Design
 ```
-CLI Interface (Typer) ’ Business Logic Layer ’ Data Access Layer ’ Local JSON Storage
-                    “
-            NLP Processing ’ Tag Extraction ’ Memory Analysis
+CLI Interface (Typer) > Business Logic Layer > Data Access Layer > Local JSON Storage
+                    ^
+            NLP Processing > Tag Extraction > Memory Analysis
 ```
 
 ### Core Components
@@ -66,7 +66,6 @@ class MemoryCollection(BaseModel):
 
 #### Storage Strategy
 - **Primary Storage**: Single JSON file (`memories.json`) for all user memories
-- **Backup Strategy**: Timestamped backup files on each write operation
 - **Data Integrity**: JSON schema validation, atomic file operations
 - **Performance**: In-memory loading with lazy persistence
 
@@ -76,11 +75,6 @@ class MemoryCollection(BaseModel):
 3. **Processing**: NLP service extracts tags from description
 4. **Storage**: Memory persisted to local JSON file
 5. **Retrieval**: In-memory cache serves read operations
-
-#### Backup & Recovery
-- **Backup Strategy**: Automatic backup before each write operation
-- **Recovery**: Restore from most recent valid backup on corruption
-- **Data Protection**: File permissions restrict access to user only
 
 ## Key Architectural Decisions Required
 
@@ -130,24 +124,6 @@ class MemoryCollection(BaseModel):
   - Streaming JSON parsing for large datasets
   - Async processing for NLP operations
   - SSD storage recommendations
-
-## Security & Compliance
-
-### Authentication
-- **Local Access**: File system permissions restrict access to user account
-- **No Network**: Zero network access eliminates remote authentication needs
-- **Session Management**: Not applicable for local CLI application
-
-### Authorization
-- **Access Control**: Operating system file permissions
-- **Data Isolation**: Each user's data stored in their home directory
-- **Permission Model**: Read/write access only for owning user
-
-### Data Protection
-- **Encryption**: File system level encryption (FileVault on macOS)
-- **Privacy**: No external data transmission, local-only processing
-- **Data Retention**: User controls all data lifecycle decisions
-- **Compliance**: GDPR compliant by design (local-only, user-controlled)
 
 ## Implementation Priorities
 
