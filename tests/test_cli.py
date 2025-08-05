@@ -7,9 +7,9 @@ from ai_journaling_assistant.cli import app
 runner = CliRunner()
 
 
-def test_fire() -> None:
-    """Test that the fire command works as expected."""
-    name = "GLaDOS"
-    result = runner.invoke(app, ["--name", name])
+def test_cli_help() -> None:
+    """Test that the CLI help works as expected."""
+    result = runner.invoke(app, ["--help"])
     assert result.exit_code == 0
-    assert name in result.stdout
+    assert "Travel Memory Journal" in result.stdout
+    assert "add-memory" in result.stdout
