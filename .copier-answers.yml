@@ -1,0 +1,13 @@
+_commit: v1.5.1
+_src_path: gh:superlinear-ai/substrate
+author_email: matt@example.com
+author_name: Matt
+project_description: Travel memory categorizer
+project_name: AI Journaling Assistant
+project_type: app
+project_url: https://github.com/MatLavallee/hopper-interview
+python_version: '3.12'
+typing: optional
+with_conventional_commits: false
+with_fastapi_api: false
+with_typer_cli: true
