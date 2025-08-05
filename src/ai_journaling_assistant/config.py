@@ -75,7 +75,9 @@ def get_tag_categories() -> Dict[str, List[str]]:
             "restaurant", "cafe", "coffee", "wine", "beer", "tasting",
             "market", "street food", "cuisine", "cooking", "bakery",
             "bar", "pub", "brewery", "vineyard", "dining", "lunch",
-            "dinner", "breakfast", "snack", "local food", "specialty"
+            "dinner", "breakfast", "snack", "local food", "specialty",
+            "sushi", "pizza", "pasta", "burger", "sandwich", "soup",
+            "salad", "dessert", "ice cream", "chocolate", "seafood"
         ],
         "culture": [
             "museum", "temple", "church", "art", "architecture", "history",
